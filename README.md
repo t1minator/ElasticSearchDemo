@@ -38,7 +38,9 @@ Here are the two links you will use for the demo:
 NOTE: id can be anything, I just UUID b/c it is easy to use.
 
 http://localhost:8081/logPerson?firstName=Joe&lastName=Smith
+
 which will return something like this:
+
 {
   _index: "person",
   _type: "log",
@@ -52,8 +54,11 @@ which will return something like this:
   created: true
 }
 Now you can use the findPerson
+
 http://localhost:8081/findPerson?id=3a1973dd-c27d-4fe7-8fe3-26357d09b8e5
+
 which returns something like this:
+
 {
   _index: "person",
   _type: "log",
