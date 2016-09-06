@@ -16,9 +16,6 @@ import lombok.Data;
 @Service
 @Data
 public class RestService {
-
-	@Value("{example.servername}")
-	String serverName;
 	
 	private RestTemplate restTemplate;
 	

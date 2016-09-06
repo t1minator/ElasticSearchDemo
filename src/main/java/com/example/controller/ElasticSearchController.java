@@ -3,6 +3,7 @@ package com.example.controller;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +24,12 @@ public class ElasticSearchController {
 	ObjectMapper objectMapper = new ObjectMapper();
 	private String jsonCmd = "";
 
-	private String  ESURL = "http://localhost:9200/person/log/";
+	@Value("${servername}")
+	String serverName;
+
+	private String  ESURL = "/person/log/";
 	@RequestMapping("/logPerson")
-	public String  logPerson(Person person) throws JsonProcessingException {
+	public ResponseEntity<String>  logPerson(Person person) throws JsonProcessingException {
 		
 		
 		UUID id = UUID.randomUUID();
@@ -33,9 +37,9 @@ public class ElasticSearchController {
 		
 		HttpEntity<String> entity = new HttpEntity<>(jsonCmd,restService.getHeader(id));
 		RestTemplate template = restService.getRestTemplate();
-		ResponseEntity<String> list = template.exchange(ESURL+id.toString(),HttpMethod.POST,entity, String.class);
+		ResponseEntity<String> list = template.exchange(serverName+ESURL+id.toString(),HttpMethod.POST,entity, String.class);
 		
-		return jsonCmd;
+		return list;
 	}
 
 	@RequestMapping("findPerson")
@@ -43,7 +47,7 @@ public class ElasticSearchController {
 		
 		RestTemplate template = restService.getRestTemplate();
 		HttpEntity<String> entity = new HttpEntity<>(jsonCmd,restService.getHeader(UUID.randomUUID()));
-		ResponseEntity<String> re = template.exchange(ESURL+id,HttpMethod.GET,entity,String.class);
+		ResponseEntity<String> re = template.exchange(serverName+ESURL+id,HttpMethod.GET,entity,String.class);
 		
 		return re;		
 	}
